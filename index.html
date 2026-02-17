@@ -28,7 +28,7 @@
     <!-- Visualization & Content Choices:
          - Archivo 1: Donut Chart (Chart.js) to visualize the composition of the Catalog (Gastos vs Proveedores vs Bancos). Goal: Inform/Organize.
          - Archivo 2: Mock "Data Health" Bar Chart to illustrate common errors (Missing UUID, etc.) and reinforce field importance. Goal: Context/Engagement.
-         - Archivo 3: Interactive Table with Toggles. Goal: Compare/Change. User switches modes to see different column requirements.
+         - Archivo 3: Interactive Table with Toggles. Goal: Compare/Change. User switches modes to see different column requirements with explicit SOURCE tagging.
          - Process: Step-by-step visual cards.
          - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
@@ -90,7 +90,7 @@
             <section id="overview" class="section-content fade-in">
                 <header class="mb-8">
                     <h2 class="text-3xl font-bold text-gray-800">Bienvenido a Don Héctor</h2>
-                    <p class="text-gray-600 mt-2 text-lg">Sistema de  Cuenta Padre de gastos y generación de pólizas mediante Inteligencia Artificial.</p>
+                    <p class="text-gray-600 mt-2 text-lg">Sistema de clasificación de gastos y generación de pólizas mediante Inteligencia Artificial.</p>
                 </header>
 
                 <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 mb-8">
@@ -414,23 +414,23 @@
             standard: {
                 desc: "Esta es la estructura general para hojas de gastos normales (Movimientos Bancarios).",
                 columns: [
-                    { name: "Identificador", synonyms: "EGRESO, POLIZA, REF", desc: "Referencia única del movimiento." },
-                    { name: "Fiscal", synonyms: "FACTURA, UUID, FOLIO", desc: "UUID(s) asociado(s). Separar por coma si hay varios." },
-                    { name: "Monto", synonyms: "CARGO, DEBE, IMPORTE", desc: "Monto total del retiro." },
-                    { name: "Descripción", synonyms: "DESCRIPCION, CONCEPTO", desc: "Texto descriptivo (ej. 'Pago Luz')." },
-                    { name: "Proveedor", synonyms: "RAZON SOCIAL, PROVEEDOR", desc: "Nombre del beneficiario." },
-                    { name: "Periodo", synonyms: "MES", desc: "Mes contable." },
-                    { name: " Cuenta Padre  ", synonyms: "CUENTA MAYOR", desc: "Ayuda a la IA (Categoría Padre)." },
-                    { name: "Cuenta Hija ", synonyms: "SUBCUENTA", desc: "Ayuda a la IA (Cuenta Específica)." }
+                    { header: "EGRESO", synonyms: "POLIZA, REF", source: "Asignado por Contador / Admin", desc: "Número de referencia único." },
+                    { header: "FACTURA", synonyms: "UUID, FOLIO", source: "Descarga Masiva CFDI", desc: "UUID(s) asociado(s). Separar por coma si hay varios." },
+                    { header: "CARGO", synonyms: "MONTO, DEBE, IMPORTE", source: "Estado de Cuenta Bancario", desc: "Monto total del retiro." },
+                    { header: "DESCRIPCION", synonyms: "CONCEPTO", source: "Estado de Cuenta Bancario", desc: "Texto descriptivo (ej. 'Pago Luz')." },
+                    { header: "PROVEEDOR", synonyms: "RAZON SOCIAL, BENEFICIARIO", source: "Estado de Cuenta Bancario", desc: "Nombre del beneficiario." },
+                    { header: "MES", synonyms: "PERIODO", source: "Estado de Cuenta Bancario", desc: "Mes contable." },
+                    { header: "CUENTA MAYOR", synonyms: "MAYOR, CLASIFICACION", source: "Asignado por Contador / Admin", desc: "Ayuda a la IA (Categoría Padre)." },
+                    { header: "SUBCUENTA", synonyms: "SUB CUENTA", source: "Asignado por Contador / Admin", desc: "Ayuda a la IA (Cuenta Específica)." }
                 ]
             },
             reembolso: {
-                desc: "Estructura exclusiva para hojas llamadas exactamente 'REEMBOLSO' o 'REEMBOLSOS'. Utilizada para caja chica o viáticos.",
+                desc: "Estructura exclusiva para hojas llamadas exactamente 'REEMBOLSO' o 'REEMBOLSOS'. Utilizada para desglosar Caja Chica o Viáticos.",
                 columns: [
-                    { name: "Vinculación", synonyms: "BANCOS, EGRESO", desc: "Debe coincidir con el identificador de la hoja general (ej. E-100)." },
-                    { name: "Monto", synonyms: "MONTO, IMPORTE", desc: "Importe individual del ticket." },
-                    { name: "Fiscal", synonyms: "FACTURA, UUID", desc: "UUID del ticket individual." },
-                    { name: "Cuentas (Manual)", synonyms: "CUENTA MAYOR, SUBCUENTA", desc: "Para  Cuenta Padre manual si se tiene." }
+                    { header: "BANCOS", synonyms: "EGRESO", source: "Cruce con Hoja General", desc: "Debe coincidir con el identificador del retiro global (ej. E-100)." },
+                    { header: "MONTO", synonyms: "IMPORTE", source: "Ticket / Recibo", desc: "Importe individual del gasto menor." },
+                    { header: "FACTURA", synonyms: "UUID", source: "Factura / Ticket", desc: "UUID específico del ticket." },
+                    { header: "CUENTAS", synonyms: "MAYOR, SUBCUENTA", source: "Asignado por Contador / Admin", desc: "Clasificación manual si se tiene." }
                 ]
             }
         };
@@ -487,9 +487,14 @@
                 const card = document.createElement('div');
                 card.className = "bg-gray-50 p-4 rounded-lg border border-gray-100 hover:border-green-300 transition-colors";
                 card.innerHTML = `
-                    <div class="text-xs font-bold text-green-600 uppercase mb-1">${col.name}</div>
-                    <div class="font-mono text-sm text-gray-800 font-medium mb-2">${col.synonyms}</div>
-                    <p class="text-xs text-gray-500">${col.desc}</p>
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="text-lg font-bold text-green-700">${col.header}</div>
+                        <span class="text-[10px] uppercase tracking-wide bg-blue-50 text-blue-700 px-2 py-1 rounded border border-blue-100 ml-2 text-right leading-tight max-w-[50%]">
+                            Origen: ${col.source}
+                        </span>
+                    </div>
+                    <div class="text-xs text-gray-500 mb-1">Sinónimos: <span class="font-mono text-gray-700">${col.synonyms}</span></div>
+                    <p class="text-sm text-gray-800 mt-2 border-t border-gray-100 pt-2">${col.desc}</p>
                 `;
                 grid.appendChild(card);
             });
