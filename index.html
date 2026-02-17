@@ -330,20 +330,37 @@
                     </div>
                 </header>
 
+                <!-- Sheet Name Warning -->
+                <div class="mb-6 bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg flex items-start">
+                    <div class="flex-shrink-0 text-yellow-500 mr-3">
+                        <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-yellow-800">Nombre de las Pestañas (Hojas)</h4>
+                        <p class="text-sm text-yellow-700 mt-1">
+                            El nombre de cada hoja de cálculo <strong>debe corresponder al Banco</strong> origen de los movimientos.
+                            <br>
+                            <span class="font-mono text-xs bg-yellow-100 px-1 py-0.5 rounded">Ejemplos: "BBVA", "Bajio", "Santander"</span>
+                        </p>
+                    </div>
+                </div>
+
                 <div id="mode-desc" class="mb-6 text-sm text-gray-600 bg-white p-4 rounded-lg border border-gray-200">
                     <!-- Dynamic Text injected by JS -->
                 </div>
 
+                <!-- Updated Grid Layout for Better Distribution -->
                 <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden relative">
                     <div class="absolute top-0 left-0 w-1 h-full bg-green-500"></div>
                     
                     <div class="p-6">
-                        <h3 class="font-bold text-gray-800 mb-4 flex items-center">
-                            <span class="w-2 h-2 rounded-full bg-green-500 mr-2"></span>
-                            Encabezados de Columna
+                        <h3 class="font-bold text-gray-800 mb-6 flex items-center text-lg">
+                            <span class="w-3 h-3 rounded-full bg-green-500 mr-3"></span>
+                            Columnas Requeridas
                         </h3>
                         
-                        <div id="file3-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <!-- Changed to 2 columns for better readability of detailed cards -->
+                        <div id="file3-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <!-- Cards injected by JS -->
                         </div>
                     </div>
@@ -484,17 +501,29 @@
             grid.innerHTML = '';
             
             data.columns.forEach(col => {
+                // Determine Source Color
+                let sourceClass = "bg-blue-50 text-blue-700 border-blue-200"; // Default (Bank)
+                if(col.source.includes("Contador") || col.source.includes("Admin") || col.source.includes("Cruce")) {
+                    sourceClass = "bg-purple-50 text-purple-700 border-purple-200";
+                } else if(col.source.includes("CFDI") || col.source.includes("Factura")) {
+                    sourceClass = "bg-emerald-50 text-emerald-700 border-emerald-200";
+                }
+
                 const card = document.createElement('div');
-                card.className = "bg-gray-50 p-4 rounded-lg border border-gray-100 hover:border-green-300 transition-colors";
+                // Made card taller and cleaner
+                card.className = "bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all flex flex-col h-full";
                 card.innerHTML = `
-                    <div class="flex justify-between items-start mb-2">
-                        <div class="text-lg font-bold text-green-700">${col.header}</div>
-                        <span class="text-[10px] uppercase tracking-wide bg-blue-50 text-blue-700 px-2 py-1 rounded border border-blue-100 ml-2 text-right leading-tight max-w-[50%]">
-                            Origen: ${col.source}
+                    <div class="flex justify-between items-start mb-3">
+                        <h4 class="text-xl font-bold text-gray-800 tracking-tight">${col.header}</h4>
+                        <span class="text-[10px] uppercase font-bold px-2 py-1 rounded border ${sourceClass} leading-none text-center">
+                            ${col.source}
                         </span>
                     </div>
-                    <div class="text-xs text-gray-500 mb-1">Sinónimos: <span class="font-mono text-gray-700">${col.synonyms}</span></div>
-                    <p class="text-sm text-gray-800 mt-2 border-t border-gray-100 pt-2">${col.desc}</p>
+                    <p class="text-sm text-gray-600 mb-4 flex-grow border-b border-gray-100 pb-4">${col.desc}</p>
+                    <div class="bg-gray-50 rounded-lg p-3 text-xs border border-gray-100 mt-auto">
+                        <div class="mb-1"><span class="font-semibold text-gray-500 uppercase tracking-wider">Sinónimos Aceptados:</span></div>
+                        <div class="font-mono text-gray-700 break-words font-medium">${col.synonyms}</div>
+                    </div>
                 `;
                 grid.appendChild(card);
             });
