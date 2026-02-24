@@ -15,23 +15,10 @@
         .tab-btn.active { border-bottom: 2px solid #4a5568; color: #1a202c; }
         .fade-in { animation: fadeIn 0.3s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Custom gradient for new features */
+        .bg-gradient-new { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
     </style>
-    <!-- Chosen Palette: Warm Neutrals & Professional Greys (Base: #fcfbf9, Primary Text: #2d3748, Accents: #4a5568, Success: #48bb78) -->
-    <!-- Application Structure Plan: Dashboard layout with Sidebar Navigation. 
-         Sections: 
-         1. Overview (General Context)
-         2. Archivo 1 (Account Catalog) - Uses charts to explain account types.
-         3. Archivo 2 (XML Database) - Focuses on data structure validation.
-         4. Archivo 3 (Expenses Input) - Interactive toggle for 'General' vs 'Reembolso' modes.
-         5. Process Flow - Visual summary.
-         Reasoning: Splits the dense manual into digestible, task-oriented sections. The structure guides the user logically from setup (Catalog) to data (XMLs) to daily input (Expenses). -->
-    <!-- Visualization & Content Choices:
-         - Archivo 1: Donut Chart (Chart.js) to visualize the composition of the Catalog (Gastos vs Proveedores vs Bancos). Goal: Inform/Organize.
-         - Archivo 2: Mock "Data Health" Bar Chart to illustrate common errors (Missing UUID, etc.) and reinforce field importance. Goal: Context/Engagement.
-         - Archivo 3: Interactive Table with Toggles. Goal: Compare/Change. User switches modes to see different column requirements with explicit SOURCE tagging.
-         - Process: Step-by-step visual cards.
-         - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 </head>
 <body class="h-screen flex flex-col md:flex-row overflow-hidden">
 
@@ -62,8 +49,12 @@
                 <span class="block font-medium">Base XMLs</span>
             </a>
             <a href="#" class="nav-item block px-6 py-4 text-gray-700 hover:bg-gray-50 transition-colors" data-section="file3">
-                <span class="block text-sm">Archivo 3</span>
-                <span class="block font-medium">Reporte de Gastos</span>
+                <span class="block text-sm text-green-600 font-bold">Archivo 3 (CRÍTICO)</span>
+                <span class="block font-medium">Estado de Cuenta</span>
+            </a>
+            <a href="#" class="nav-item block px-6 py-4 text-gray-700 hover:bg-gray-50 transition-colors" data-section="predictions">
+                <span class="block text-sm text-indigo-600 font-bold">Motor de IA</span>
+                <span class="block font-medium">Asignación y Predicción</span>
             </a>
             <a href="#" class="nav-item block px-6 py-4 text-gray-700 hover:bg-gray-50 transition-colors" data-section="process">
                 <span class="block text-sm">Flujo</span>
@@ -76,7 +67,7 @@
                 <p class="text-xs text-gray-500 mb-2">Estado del Sistema</p>
                 <div class="flex items-center">
                     <span class="h-2 w-2 rounded-full bg-green-500 mr-2"></span>
-                    <span class="text-sm font-semibold text-gray-700">En Línea</span>
+                    <span class="text-sm font-semibold text-gray-700">Conciliador IA v2.0 Activo</span>
                 </div>
             </div>
         </div>
@@ -90,27 +81,28 @@
             <section id="overview" class="section-content fade-in">
                 <header class="mb-8">
                     <h2 class="text-3xl font-bold text-gray-800">Bienvenido a Don Héctor</h2>
-                    <p class="text-gray-600 mt-2 text-lg">Sistema de clasificación de gastos y generación de pólizas mediante Inteligencia Artificial.</p>
+                    <p class="text-gray-600 mt-2 text-lg">Sistema de conciliación automática y generación de pólizas mediante Inteligencia Artificial.</p>
                 </header>
 
                 <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 mb-8">
                     <h3 class="text-xl font-semibold mb-4 text-gray-800">Requisitos Críticos</h3>
-                    <p class="mb-6 text-gray-600">Para asegurar el correcto funcionamiento del sistema, es indispensable preparar 3 archivos específicos. La IA utiliza estos archivos para aprender, validar y procesar su contabilidad.</p>
+                    <p class="mb-6 text-gray-600">Para asegurar el correcto funcionamiento del sistema híbrido, prepare estos 3 componentes. La IA cruzará todo automáticamente.</p>
                     
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div class="bg-orange-50 rounded-lg p-6 border border-orange-100 hover:shadow-md transition-shadow cursor-pointer" onclick="navigateTo('file1')">
                             <div class="text-orange-600 font-bold text-lg mb-2">01. Catálogo</div>
                             <p class="text-sm text-gray-700">Entrenamiento de la IA. Define cuentas, proveedores y bancos.</p>
-                            <span class="inline-block mt-3 text-xs font-semibold bg-white px-2 py-1 rounded border border-orange-200 text-orange-800">Formato: CSV</span>
+                            <span class="inline-block mt-3 text-xs font-semibold bg-white px-2 py-1 rounded border border-orange-200 text-orange-800">BD Postgres / CSV</span>
                         </div>
                         <div class="bg-blue-50 rounded-lg p-6 border border-blue-100 hover:shadow-md transition-shadow cursor-pointer" onclick="navigateTo('file2')">
                             <div class="text-blue-600 font-bold text-lg mb-2">02. Base XMLs</div>
-                            <p class="text-sm text-gray-700">Fuente de datos fiscales. Valida UUIDs e importes.</p>
-                            <span class="inline-block mt-3 text-xs font-semibold bg-white px-2 py-1 rounded border border-blue-200 text-blue-800">Formato: Excel</span>
+                            <p class="text-sm text-gray-700">Fuente de datos fiscales y UUIDs extraídos de la base de datos.</p>
+                            <span class="inline-block mt-3 text-xs font-semibold bg-white px-2 py-1 rounded border border-blue-200 text-blue-800">BD Postgres / Excel</span>
                         </div>
-                        <div class="bg-green-50 rounded-lg p-6 border border-green-100 hover:shadow-md transition-shadow cursor-pointer" onclick="navigateTo('file3')">
-                            <div class="text-green-600 font-bold text-lg mb-2">03. Reporte Gastos</div>
-                            <p class="text-sm text-gray-700">Input principal. Movimientos a procesar.</p>
+                        <div class="bg-green-50 rounded-lg p-6 border-2 border-green-500 shadow-md hover:shadow-lg transition-shadow cursor-pointer relative" onclick="navigateTo('file3')">
+                            <div class="absolute -top-3 -right-3 bg-green-500 text-white text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wide">Actualizado</div>
+                            <div class="text-green-600 font-bold text-lg mb-2">03. Estado de Cuenta</div>
+                            <p class="text-sm text-gray-700">Input principal. Movimientos bancarios en bruto.</p>
                             <span class="inline-block mt-3 text-xs font-semibold bg-white px-2 py-1 rounded border border-green-200 text-green-800">Formato: Excel</span>
                         </div>
                     </div>
@@ -118,27 +110,27 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                        <h3 class="font-semibold text-gray-800 mb-4">¿Cómo funciona la IA?</h3>
+                        <h3 class="font-semibold text-gray-800 mb-4">¿Cómo funciona la IA de Conciliación?</h3>
                         <ul class="space-y-3">
                             <li class="flex items-start">
-                                <span class="flex-shrink-0 h-6 w-6 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 font-bold text-xs mr-3">1</span>
-                                <span class="text-sm text-gray-600">Analiza las descripciones en su <strong>Archivo 1</strong>.</span>
+                                <span class="flex-shrink-0 h-6 w-6 flex items-center justify-center rounded-full bg-green-100 text-green-600 font-bold text-xs mr-3">1</span>
+                                <span class="text-sm text-gray-600">Busca el <strong>importe exacto</strong> (Cargo del Banco vs Total del XML).</span>
                             </li>
                             <li class="flex items-start">
-                                <span class="flex-shrink-0 h-6 w-6 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 font-bold text-xs mr-3">2</span>
-                                <span class="text-sm text-gray-600">Busca coincidencias fiscales en el <strong>Archivo 2</strong>.</span>
+                                <span class="flex-shrink-0 h-6 w-6 flex items-center justify-center rounded-full bg-green-100 text-green-600 font-bold text-xs mr-3">2</span>
+                                <span class="text-sm text-gray-600">Busca el <strong>RFC dentro del concepto</strong> del banco (Bonificación por match).</span>
                             </li>
                             <li class="flex items-start">
-                                <span class="flex-shrink-0 h-6 w-6 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 font-bold text-xs mr-3">3</span>
-                                <span class="text-sm text-gray-600">Clasifica cada línea del <strong>Archivo 3</strong> automáticamente.</span>
+                                <span class="flex-shrink-0 h-6 w-6 flex items-center justify-center rounded-full bg-green-100 text-green-600 font-bold text-xs mr-3">3</span>
+                                <span class="text-sm text-gray-600">Utiliza Procesamiento de Lenguaje (NLP) para emparejar la descripción bancaria con la razón social.</span>
                             </li>
                         </ul>
                     </div>
                     <div class="bg-gray-800 text-white p-6 rounded-xl shadow-lg flex flex-col justify-center items-center text-center">
-                        <h3 class="font-bold text-xl mb-2">Comience Aquí</h3>
-                        <p class="text-gray-400 text-sm mb-6">Explore los requisitos de cada archivo para preparar su carga.</p>
-                        <button onclick="navigateTo('file1')" class="px-6 py-2 bg-white text-gray-900 font-semibold rounded-full hover:bg-gray-100 transition-colors shadow-lg transform hover:scale-105 duration-200">
-                            Ver Requisitos Archivo 1 &rarr;
+                        <h3 class="font-bold text-xl mb-2">Configure su Estado de Cuenta</h3>
+                        <p class="text-gray-400 text-sm mb-6">El sistema se ha actualizado. Revise las nuevas columnas obligatorias.</p>
+                        <button onclick="navigateTo('file3')" class="px-6 py-2 bg-green-500 text-white font-bold rounded-full hover:bg-green-400 transition-colors shadow-lg transform hover:scale-105 duration-200">
+                            Ver Archivo 3 Crítico &rarr;
                         </button>
                     </div>
                 </div>
@@ -153,7 +145,7 @@
                         <span class="font-semibold text-orange-600">Archivo 1</span>
                     </div>
                     <h2 class="text-3xl font-bold text-gray-800">Catálogo de Cuentas (Maestro)</h2>
-                    <p class="text-gray-600 mt-2">El cerebro del sistema. Formato requerido: <strong>CSV (.csv)</strong></p>
+                    <p class="text-gray-600 mt-2">El cerebro del sistema.</p>
                 </header>
 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -163,7 +155,6 @@
                         <div class="chart-container">
                             <canvas id="chartFile1"></canvas>
                         </div>
-                        <p class="text-xs text-center text-gray-500 mt-4">Haga clic en el gráfico para filtrar detalles.</p>
                     </div>
 
                     <!-- Right: Content -->
@@ -174,46 +165,21 @@
                             </p>
                         </div>
 
-                        <!-- Dynamic Details Box -->
-                        <div id="file1-details" class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                            <h3 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">Estructura de Columnas</h3>
-                            <div class="overflow-x-auto">
-                                <table class="w-full text-sm text-left text-gray-600">
-                                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                                        <tr>
-                                            <th class="px-4 py-3 rounded-l-lg">Encabezado</th>
-                                            <th class="px-4 py-3 rounded-r-lg">Requisito</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr class="border-b">
-                                            <td class="px-4 py-3 font-mono font-medium text-blue-600">Cuenta</td>
-                                            <td class="px-4 py-3">Número de cuenta contable (ej. <code class="bg-gray-100 px-1 rounded">6100-001-000...</code>)</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="px-4 py-3 font-mono font-medium text-blue-600">Descripción de la cuenta</td>
-                                            <td class="px-4 py-3">Nombre legible (ej. "GASTOS DE VIAJE", "OFFICE DEPOT")</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
                         <!-- Requirements List (Filtered by Chart) -->
                         <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
                             <h3 class="font-semibold text-gray-800 mb-3">Detalle por Tipo de Cuenta</h3>
-                            <div id="req-list" class="space-y-3">
-                                <div class="req-item p-3 rounded bg-gray-50 hover:bg-gray-100 transition-colors" data-type="gastos">
+                            <div class="space-y-3">
+                                <div class="p-3 rounded bg-gray-50 border-l-4 border-indigo-400">
                                     <span class="text-xs font-bold text-indigo-600 uppercase block mb-1">Serie 6000 (Gastos)</span>
-                                    <p class="text-sm">Debe incluir cuentas Padre (terminan en -000...) y Subcuentas. La IA aprende de aquí cómo clasificar.</p>
+                                    <p class="text-sm">Debe incluir cuentas Padre (terminan en -000) y Subcuentas. Se usa para predicciones Léxicas y Semánticas (Bottom-Up).</p>
                                 </div>
-                                <div class="req-item p-3 rounded bg-gray-50 hover:bg-gray-100 transition-colors" data-type="proveedores">
+                                <div class="p-3 rounded bg-gray-50 border-l-4 border-emerald-400">
                                     <span class="text-xs font-bold text-emerald-600 uppercase block mb-1">Serie 2110/2114 (Proveedores)</span>
-                                    <p class="text-sm">Necesario para identificar la Razón Social y asociarla al gasto.</p>
+                                    <p class="text-sm">Necesario para identificar la Razón Social y crear el pasivo correspondiente.</p>
                                 </div>
-                                <div class="req-item p-3 rounded bg-gray-50 hover:bg-gray-100 transition-colors" data-type="bancos">
+                                <div class="p-3 rounded bg-gray-50 border-l-4 border-amber-400">
                                     <span class="text-xs font-bold text-amber-600 uppercase block mb-1">Serie 1120 (Bancos)</span>
-                                    <p class="text-sm">Identifica el origen de los fondos. Fundamental para la póliza de egreso.</p>
+                                    <p class="text-sm">Identifica el origen de los fondos. Reconoce automáticamente en base al NLP.</p>
                                 </div>
                             </div>
                         </div>
@@ -230,105 +196,62 @@
                         <span class="font-semibold text-blue-600">Archivo 2</span>
                     </div>
                     <h2 class="text-3xl font-bold text-gray-800">Base de Datos de Facturas (XMLs)</h2>
-                    <p class="text-gray-600 mt-2">Validación fiscal. Formato requerido: <strong>Excel (.xlsx)</strong>, Hoja 1.</p>
+                    <p class="text-gray-600 mt-2">Extraída automáticamente de la base de datos (Postgres).</p>
                 </header>
 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                        <h3 class="font-semibold text-gray-800 mb-4">Lógica de Búsqueda</h3>
-                        <p class="text-sm text-gray-600 mb-4">El sistema utiliza los primeros <strong>8 caracteres del UUID</strong> para realizar búsquedas rápidas. Asegúrese de que esta columna esté completa.</p>
-                        
-                        <!-- Visual Simulation of UUID Logic -->
-                        <div class="bg-gray-900 rounded-lg p-4 font-mono text-sm text-gray-300 overflow-hidden">
-                            <div class="flex items-center mb-2">
-                                <span class="text-green-400 mr-2">UUID Completo:</span>
-                                <span>5F4E2D1A-9B3C...</span>
-                            </div>
-                            <div class="flex items-center border-t border-gray-700 pt-2">
-                                <span class="text-blue-400 mr-2">Sistema Lee:</span>
-                                <span class="bg-blue-900 text-white px-1 rounded">5F4E2D1A</span>
-                                <span class="text-gray-600 ml-1">(Match OK)</span>
-                            </div>
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-8">
+                    <h3 class="font-semibold text-gray-800 mb-4">¿Qué hace el sistema con los XMLs?</h3>
+                    <p class="text-sm text-gray-600 mb-4">Se extraen automáticamente de la Base de Datos según el RFC y el rango de fechas proporcionado en la plataforma. Internamente, el sistema asegura la presencia de:</p>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                        <div class="bg-blue-50 p-4 rounded-lg text-center">
+                            <span class="block text-xl font-bold text-blue-700">UUID</span>
+                            <span class="text-xs text-blue-600">Primeros 8 chars</span>
                         </div>
-                    </div>
-
-                    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                        <h3 class="font-semibold text-gray-800 mb-4">Integridad de Datos (Simulación)</h3>
-                        <p class="text-xs text-gray-500 mb-2">Errores comunes que detienen el proceso:</p>
-                        <div class="chart-container" style="height: 200px;">
-                            <canvas id="chartFile2"></canvas>
+                        <div class="bg-blue-50 p-4 rounded-lg text-center">
+                            <span class="block text-xl font-bold text-blue-700">RFC / Nombre</span>
+                            <span class="text-xs text-blue-600">Del Emisor</span>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Column Definition Table -->
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                    <div class="p-4 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
-                        <h3 class="font-bold text-gray-800">Columnas Obligatorias</h3>
-                        <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">Reintento Automático: Fila 1 o Fila 3</span>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-sm text-left">
-                            <thead class="text-xs text-gray-500 uppercase bg-white border-b">
-                                <tr>
-                                    <th class="px-6 py-3">Nombre Columna</th>
-                                    <th class="px-6 py-3">Sinónimos Aceptados</th>
-                                    <th class="px-6 py-3">Tipo</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-100">
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4 font-medium text-gray-900">UUID</td>
-                                    <td class="px-6 py-4 text-gray-500">-</td>
-                                    <td class="px-6 py-4"><span class="bg-red-100 text-red-800 text-xs px-2 py-0.5 rounded">Obligatorio</span></td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4 font-medium text-gray-900">RFC EMISOR</td>
-                                    <td class="px-6 py-4 text-gray-500">-</td>
-                                    <td class="px-6 py-4">Texto</td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4 font-medium text-gray-900">IVA</td>
-                                    <td class="px-6 py-4 text-gray-500">IVA 16%, IVA TRASLADADO</td>
-                                    <td class="px-6 py-4">Numérico</td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4 font-medium text-gray-900">SUBTOTAL</td>
-                                    <td class="px-6 py-4 text-gray-500">-</td>
-                                    <td class="px-6 py-4">Numérico</td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4 font-medium text-gray-900">TOTAL</td>
-                                    <td class="px-6 py-4 text-gray-500">-</td>
-                                    <td class="px-6 py-4">Numérico</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="bg-blue-50 p-4 rounded-lg text-center">
+                            <span class="block text-xl font-bold text-blue-700">Montos</span>
+                            <span class="text-xs text-blue-600">Sub, IVA, Total</span>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg text-center">
+                            <span class="block text-xl font-bold text-blue-700">Clave SAT</span>
+                            <span class="text-xs text-blue-600">ClaveProdServ</span>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <!-- SECTION: FILE 3 -->
+            <!-- SECTION: FILE 3 (CRITICAL) -->
             <section id="file3" class="section-content hidden fade-in">
                 <header class="mb-6 border-b border-gray-200 pb-4">
                     <div class="flex items-center text-sm text-gray-500 mb-2">
                         <span>Archivos Requeridos</span>
                         <span class="mx-2">/</span>
-                        <span class="font-semibold text-green-600">Archivo 3</span>
+                        <span class="font-semibold text-green-600">Archivo 3 (Estado de Cuenta)</span>
                     </div>
                     <div class="flex flex-col md:flex-row md:justify-between md:items-end">
                         <div>
-                            <h2 class="text-3xl font-bold text-gray-800">Reporte de Gastos (Input)</h2>
-                            <p class="text-gray-600 mt-2">El archivo a procesar. Formato requerido: <strong>Excel (.xlsx)</strong></p>
-                        </div>
-                        
-                        <!-- Toggle Mode -->
-                        <div class="mt-4 md:mt-0 bg-gray-100 p-1 rounded-lg inline-flex">
-                            <button id="btn-standard" class="px-4 py-2 text-sm font-medium rounded-md shadow-sm bg-white text-gray-900 transition-all" onclick="toggleFile3Mode('standard')">General</button>
-                            <button id="btn-reembolso" class="px-4 py-2 text-sm font-medium rounded-md text-gray-500 hover:text-gray-900 transition-all" onclick="toggleFile3Mode('reembolso')">Hoja Reembolso</button>
+                            <h2 class="text-3xl font-bold text-gray-800">Estado de Cuenta Bancario</h2>
+                            <p class="text-gray-600 mt-2">El archivo que usted carga. Formato requerido: <strong>Excel (.xlsx)</strong></p>
                         </div>
                     </div>
                 </header>
+
+                <!-- NEW ALGORITHM BANNER -->
+                <div class="mb-6 bg-gradient-new text-white p-5 rounded-xl shadow-md flex items-start">
+                    <div class="flex-shrink-0 text-white mr-4 mt-1">
+                        <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold">¡NUEVO! Motor de Conciliación Automática</h4>
+                        <p class="text-sm mt-1 text-green-50 opacity-90 leading-relaxed">
+                            Ya <strong>no es obligatorio</strong> escribir manualmente el UUID, el EGRESO ni la Cuenta Mayor. El sistema lee el estado de cuenta puro que le da el banco y mediante el algoritmo cruzará automáticamente las fechas, montos e intentará extraer el RFC de la <strong>Descripción</strong>.
+                        </p>
+                    </div>
+                </div>
 
                 <!-- Sheet Name Warning -->
                 <div class="mb-6 bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg flex items-start">
@@ -338,30 +261,118 @@
                     <div>
                         <h4 class="text-sm font-bold text-yellow-800">Nombre de las Pestañas (Hojas)</h4>
                         <p class="text-sm text-yellow-700 mt-1">
-                            El nombre de cada hoja de cálculo <strong>debe corresponder al Banco</strong> origen de los movimientos.
-                            <br>
-                            <span class="font-mono text-xs bg-yellow-100 px-1 py-0.5 rounded">Ejemplos: "BBVA", "Bajio", "Santander"</span>
+                            El nombre de cada hoja de cálculo <strong>debe corresponder al Banco</strong> origen de los movimientos. Evite espacios extraños.<br>
+                            <span class="font-mono text-xs bg-yellow-100 px-2 py-1 rounded font-bold mt-2 inline-block">Ejemplos: "BBVA", "BAJIO", "SANTANDER"</span>
                         </p>
                     </div>
                 </div>
 
-                <div id="mode-desc" class="mb-6 text-sm text-gray-600 bg-white p-4 rounded-lg border border-gray-200">
+                <div id="mode-desc" class="mb-6 text-sm font-medium text-gray-700 bg-white p-4 rounded-lg border border-gray-200">
                     <!-- Dynamic Text injected by JS -->
                 </div>
 
-                <!-- Updated Grid Layout for Better Distribution -->
+                <!-- Columns Section -->
                 <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden relative">
-                    <div class="absolute top-0 left-0 w-1 h-full bg-green-500"></div>
+                    <div class="absolute top-0 left-0 w-2 h-full bg-green-500"></div>
                     
-                    <div class="p-6">
-                        <h3 class="font-bold text-gray-800 mb-6 flex items-center text-lg">
-                            <span class="w-3 h-3 rounded-full bg-green-500 mr-3"></span>
-                            Columnas Requeridas
+                    <div class="p-6 pl-8">
+                        <h3 class="font-bold text-gray-800 mb-6 flex items-center text-xl">
+                            <span class="uppercase tracking-wide text-green-700">Columnas Indispensables para la Lectura</span>
                         </h3>
                         
-                        <!-- Changed to 2 columns for better readability of detailed cards -->
                         <div id="file3-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <!-- Cards injected by JS -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: PREDICTIONS (IA MOTOR) -->
+            <section id="predictions" class="section-content hidden fade-in">
+                <header class="mb-8 border-b border-gray-200 pb-4">
+                    <div class="flex items-center text-sm text-gray-500 mb-2">
+                        <span>Motor de IA</span>
+                        <span class="mx-2">/</span>
+                        <span class="font-semibold text-indigo-600">Asignación y Predicción</span>
+                    </div>
+                    <h2 class="text-3xl font-bold text-gray-800">El Cerebro del Sistema</h2>
+                    <p class="text-gray-600 mt-2">Descubra cómo la inteligencia artificial toma decisiones precisas de conciliación y contabilidad mediante modelos matemáticos y semánticos.</p>
+                </header>
+
+                <!-- Part 1: Algoritmo Húngaro -->
+                <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden mb-8">
+                    <div class="bg-indigo-600 p-4 text-white flex items-center">
+                        <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                        <h3 class="text-xl font-bold">1. Asignación Global (Algoritmo Húngaro)</h3>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-600 mb-6">El sistema no empareja el primer registro que encuentra. En su lugar, construye una matriz de costos y evalúa todas las combinaciones posibles de facturas y movimientos bancarios <strong>simultáneamente</strong> para encontrar la asignación 1-a-1 perfecta a nivel global.</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="bg-indigo-50 rounded-lg p-5 border border-indigo-100">
+                                <div class="text-indigo-700 font-bold mb-2 flex items-center"><span class="text-xl mr-2">💸</span> Costo por Monto</div>
+                                <p class="text-sm text-gray-700">Calcula la diferencia exacta en centavos entre el cargo bancario y el total del XML. Solo pre-selecciona candidatos si la diferencia es menor a la tolerancia permitida (ej. $0.50 MXN).</p>
+                            </div>
+                            <div class="bg-indigo-50 rounded-lg p-5 border border-indigo-100">
+                                <div class="text-indigo-700 font-bold mb-2 flex items-center"><span class="text-xl mr-2">📅</span> Costo por Fecha</div>
+                                <p class="text-sm text-gray-700">Penaliza la asignación matemática si la fecha de la factura y la del cobro bancario están alejadas en días. Ayuda a desempatar cobros idénticos.</p>
+                            </div>
+                            <div class="bg-indigo-50 rounded-lg p-5 border border-indigo-100">
+                                <div class="text-indigo-700 font-bold mb-2 flex items-center"><span class="text-xl mr-2">🔤</span> Bonificación RFC</div>
+                                <p class="text-sm text-gray-700">Si el RFC del XML aparece escrito dentro del concepto bancario, el sistema otorga un "descuento de costo" forzando un emparejamiento casi 100% seguro.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Part 2: Predicción Bottom-Up -->
+                <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+                    <div class="bg-emerald-600 p-4 text-white flex items-center">
+                        <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                        <h3 class="text-xl font-bold">2. Estrategia de Predicción (Bottom-Up)</h3>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-600 mb-6">En lugar de intentar adivinar la cuenta de mayor directamente, la IA utiliza una estrategia de "abajo hacia arriba" (Bottom-Up) deduciendo primero el gasto más específico.</p>
+
+                        <div class="flex flex-col md:flex-row gap-4 items-stretch">
+                            <!-- Paso A -->
+                            <div class="flex-1 bg-gray-50 rounded-lg p-5 border border-gray-200">
+                                <h4 class="font-bold text-gray-800 mb-3 border-b pb-2 text-sm">A. Fusión de Contexto</h4>
+                                <ul class="text-sm text-gray-700 space-y-2">
+                                    <li><span class="text-emerald-500 font-bold">+</span> Concepto Bancario</li>
+                                    <li><span class="text-emerald-500 font-bold">+</span> Concepto Factura (XML)</li>
+                                    <li><span class="text-emerald-500 font-bold">+</span> Desc. Clave SAT</li>
+                                </ul>
+                                <p class="text-xs text-gray-500 mt-3 italic">Se crea un "súper-texto" agrupando la información disponible.</p>
+                            </div>
+                            
+                            <!-- Arrow -->
+                            <div class="flex flex-col justify-center items-center text-gray-400">
+                                <svg class="w-6 h-6 transform rotate-90 md:rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                            </div>
+
+                            <!-- Paso B -->
+                            <div class="flex-1 bg-gray-50 rounded-lg p-5 border border-gray-200">
+                                <h4 class="font-bold text-gray-800 mb-3 border-b pb-2 text-sm">B. Clasificación Dual (Hija)</h4>
+                                <ul class="text-sm text-gray-700 space-y-3">
+                                    <li><strong>1. Léxico (TF-IDF):</strong> Busca patrones exactos de caracteres (Ej. "Gasolina" → "Combustibles").</li>
+                                    <li><strong>2. Semántico (IA):</strong> Si las palabras no coinciden, entiende el contexto (Ej. "Uber" → "Transporte").</li>
+                                </ul>
+                            </div>
+
+                            <!-- Arrow -->
+                            <div class="flex flex-col justify-center items-center text-gray-400">
+                                <svg class="w-6 h-6 transform rotate-90 md:rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                            </div>
+
+                            <!-- Paso C -->
+                            <div class="flex-1 bg-emerald-50 rounded-lg p-5 border border-emerald-200 shadow-sm relative overflow-hidden">
+                                <div class="absolute right-0 top-0 opacity-10">
+                                    <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                                </div>
+                                <h4 class="font-bold text-emerald-800 mb-3 border-b border-emerald-200 pb-2 text-sm">C. Deducción Padre</h4>
+                                <p class="text-sm text-gray-700">Al encontrar la <strong>Subcuenta</strong> ganadora de forma precisa, el sistema mapea e infiere infaliblemente a qué <strong>Cuenta Mayor</strong> pertenece, según la estructura jerárquica dictada en su Archivo 1.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -370,8 +381,8 @@
             <!-- SECTION: PROCESS -->
             <section id="process" class="section-content hidden fade-in">
                 <header class="mb-8 text-center max-w-2xl mx-auto">
-                    <h2 class="text-3xl font-bold text-gray-800">Resumen del Proceso</h2>
-                    <p class="text-gray-600 mt-2">Cómo interactúan los 3 archivos para generar la póliza final.</p>
+                    <h2 class="text-3xl font-bold text-gray-800">Flujo de Conciliación y Pólizas</h2>
+                    <p class="text-gray-600 mt-2">Cómo interactúa la IA con sus datos.</p>
                 </header>
 
                 <div class="relative max-w-4xl mx-auto">
@@ -381,42 +392,49 @@
                     <!-- Step 1 -->
                     <div class="relative z-10 flex flex-col md:flex-row items-center mb-12">
                         <div class="w-full md:w-1/2 md:pr-8 md:text-right">
-                            <h3 class="text-lg font-bold text-gray-800">1. Entrenamiento</h3>
-                            <p class="text-sm text-gray-600">Carga del <strong>Archivo 1 (Catálogo)</strong>.</p>
-                            <p class="text-xs text-gray-500 mt-1">La IA aprende sus cuentas y proveedores.</p>
+                            <h3 class="text-lg font-bold text-gray-800">1. Extracción de DB (Base XML)</h3>
+                            <p class="text-sm text-gray-600">El sistema se conecta y extrae todas las facturas de su empresa en el rango de fechas.</p>
                         </div>
-                        <div class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold border-4 border-white shadow-sm my-2 md:my-0">1</div>
+                        <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold border-4 border-white shadow-lg my-4 md:my-0 text-xl z-10">1</div>
                         <div class="w-full md:w-1/2 md:pl-8"></div>
                     </div>
 
                     <!-- Step 2 -->
                     <div class="relative z-10 flex flex-col md:flex-row items-center mb-12">
                         <div class="w-full md:w-1/2 md:pr-8 md:text-right hidden md:block"></div>
-                        <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold border-4 border-white shadow-sm my-2 md:my-0">2</div>
+                        <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold border-4 border-white shadow-lg my-4 md:my-0 text-xl z-10">2</div>
                         <div class="w-full md:w-1/2 md:pl-8">
-                            <h3 class="text-lg font-bold text-gray-800">2. Contexto Fiscal</h3>
-                            <p class="text-sm text-gray-600">Carga del <strong>Archivo 2 (XMLs)</strong>.</p>
-                            <p class="text-xs text-gray-500 mt-1">Datos disponibles para búsqueda por UUID.</p>
+                            <h3 class="text-lg font-bold text-gray-800">2. Lectura del Estado de Cuenta</h3>
+                            <p class="text-sm text-gray-600">Usted sube el Excel. El sistema identifica las hojas, filtra los cargos reales e ignora filas vacías.</p>
                         </div>
                     </div>
 
                     <!-- Step 3 -->
                     <div class="relative z-10 flex flex-col md:flex-row items-center mb-12">
                         <div class="w-full md:w-1/2 md:pr-8 md:text-right">
-                            <h3 class="text-lg font-bold text-gray-800">3. Procesamiento</h3>
-                            <p class="text-sm text-gray-600">El sistema lee el <strong>Archivo 3 (Gastos)</strong>.</p>
-                            <p class="text-xs text-gray-500 mt-1">Busca UUIDs en Archivo 2 + Predice Cuentas con IA de Archivo 1.</p>
+                            <h3 class="text-xl font-bold text-indigo-700">3. Algoritmo Húngaro (Conciliación)</h3>
+                            <p class="text-sm text-gray-600 mt-2">La IA resuelve las ambigüedades construyendo una matriz matemática para encontrar el "match" perfecto considerando <strong>Montos, Fechas y el RFC</strong> en los conceptos.</p>
                         </div>
-                        <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold border-4 border-white shadow-sm my-2 md:my-0">3</div>
+                        <div class="w-12 h-12 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold border-4 border-white shadow-lg my-4 md:my-0 text-xl z-10">3</div>
                         <div class="w-full md:w-1/2 md:pl-8"></div>
                     </div>
 
+                    <!-- Step 4 -->
+                    <div class="relative z-10 flex flex-col md:flex-row items-center mb-12">
+                        <div class="w-full md:w-1/2 md:pr-8 md:text-right hidden md:block"></div>
+                        <div class="w-12 h-12 bg-emerald-600 rounded-full flex items-center justify-center text-white font-bold border-4 border-white shadow-lg my-4 md:my-0 text-xl z-10">4</div>
+                        <div class="w-full md:w-1/2 md:pl-8">
+                            <h3 class="text-xl font-bold text-emerald-700">4. Predicción Bottom-Up (Hija → Padre)</h3>
+                            <p class="text-sm text-gray-600 mt-2">Se fusionan los textos del XML y el banco para predecir primero la <strong>Subcuenta específica</strong> y automáticamente deducir a qué <strong>Cuenta Mayor</strong> pertenece.</p>
+                        </div>
+                    </div>
+
                     <!-- Final Output -->
-                    <div class="relative z-10 flex justify-center">
-                        <div class="bg-gray-800 text-white px-8 py-4 rounded-xl shadow-lg text-center transform hover:scale-105 transition-transform duration-300">
-                            <div class="text-2xl mb-2">🎉</div>
-                            <h3 class="font-bold">Generación de Póliza</h3>
-                            <p class="text-xs text-gray-400">Archivo Excel Final</p>
+                    <div class="relative z-10 flex justify-center mt-6">
+                        <div class="bg-gray-800 text-white px-8 py-5 rounded-xl shadow-xl text-center transform hover:scale-105 transition-transform duration-300 border border-gray-700">
+                            <div class="text-3xl mb-2">📁</div>
+                            <h3 class="font-bold text-xl">Descarga del Archivo ZIP</h3>
+                            <p class="text-sm text-gray-400 mt-1">Obtienes el XML Enriquecido y el EC Conciliado.</p>
                         </div>
                     </div>
                 </div>
@@ -426,41 +444,42 @@
     </main>
 
     <script>
-        // --- DATA & CONTENT ---
+        // --- DATA & CONTENT REFLECTING NEW BACKEND PARSER ---
         const file3Data = {
-            standard: {
-                desc: "Esta es la estructura general para hojas de gastos normales (Movimientos Bancarios).",
-                columns: [
-                    { header: "EGRESO", synonyms: "POLIZA, REF", source: "Asignado por Contador / Admin", desc: "Número de referencia único." },
-                    { header: "FACTURA", synonyms: "UUID, FOLIO", source: "Descarga Masiva CFDI", desc: "UUID(s) asociado(s). Separar por coma si hay varios." },
-                    { header: "CARGO", synonyms: "MONTO, DEBE, IMPORTE", source: "Estado de Cuenta Bancario", desc: "Monto total del retiro." },
-                    { header: "DESCRIPCION", synonyms: "CONCEPTO", source: "Estado de Cuenta Bancario", desc: "Texto descriptivo (ej. 'Pago Luz')." },
-                    { header: "PROVEEDOR", synonyms: "RAZON SOCIAL, BENEFICIARIO", source: "Estado de Cuenta Bancario", desc: "Nombre del beneficiario." },
-                    { header: "MES", synonyms: "PERIODO", source: "Estado de Cuenta Bancario", desc: "Mes contable." },
-                    { header: "CUENTA MAYOR", synonyms: "MAYOR, CLASIFICACION", source: "Asignado por Contador / Admin", desc: "Ayuda a la IA (Categoría Padre)." },
-                    { header: "SUBCUENTA", synonyms: "SUB CUENTA", source: "Asignado por Contador / Admin", desc: "Ayuda a la IA (Cuenta Específica)." }
-                ]
-            },
-            reembolso: {
-                desc: "Estructura exclusiva para hojas llamadas exactamente 'REEMBOLSO' o 'REEMBOLSOS'. Utilizada para desglosar Caja Chica o Viáticos.",
-                columns: [
-                    { header: "BANCOS", synonyms: "EGRESO", source: "Cruce con Hoja General", desc: "Debe coincidir con el identificador del retiro global (ej. E-100)." },
-                    { header: "MONTO", synonyms: "IMPORTE", source: "Ticket / Recibo", desc: "Importe individual del gasto menor." },
-                    { header: "FACTURA", synonyms: "UUID", source: "Factura / Ticket", desc: "UUID específico del ticket." },
-                    { header: "CUENTAS", synonyms: "MAYOR, SUBCUENTA", source: "Asignado por Contador / Admin", desc: "Clasificación manual si se tiene." }
-                ]
-            }
+            desc: "Esta es la estructura CRÍTICA para procesar su archivo Excel (Estado de Cuenta). El sistema rastreará los encabezados en la primera fila usando múltiples sinónimos.",
+            columns: [
+                { 
+                    header: "FECHA / MES", 
+                    synonyms: "FECHA OPER, FECHA EMISION, MES, FECHA", 
+                    source: "Banco", 
+                    desc: "Fecha de la operación. Esencial para el Algoritmo Húngaro (penaliza o premia la coincidencia temporal con la fecha del XML)." 
+                },
+                { 
+                    header: "CARGO (Salidas)", 
+                    synonyms: "CARGO, CARGOS, DEBE, IMPORTE, RETIRO, RETIROS", 
+                    source: "Banco", 
+                    desc: "El monto que salió de la cuenta. El algoritmo lo cruza directamente contra el TOTAL del XML con una tolerancia de centavos." 
+                },
+                { 
+                    header: "ABONO (Entradas)", 
+                    synonyms: "ABONOS, ABONO, DEPOSITO, DEPOSITOS", 
+                    source: "Banco", 
+                    desc: "Entradas de dinero a la cuenta. (Se identifican para separarlas del flujo de egresos habitual)." 
+                },
+                { 
+                    header: "DESCRIPCIÓN / CONCEPTO", 
+                    synonyms: "DESCRIPCION, CONCEPTO, DETALLE, COD. DESCRIPCIÓN", 
+                    source: "Banco", 
+                    desc: "¡VITAL! La IA procesa todo este texto. Si usted pega el RFC del proveedor aquí, el Algoritmo Húngaro asegurará el 'Match' casi al 100% de manera automática." 
+                }
+            ]
         };
 
         // --- NAVIGATION LOGIC ---
         function navigateTo(sectionId) {
-            // Hide all sections
             document.querySelectorAll('.section-content').forEach(el => el.classList.add('hidden'));
-            
-            // Show target section
             document.getElementById(sectionId).classList.remove('hidden');
             
-            // Update Navigation UI
             document.querySelectorAll('.nav-item').forEach(el => {
                 el.classList.remove('active-nav', 'bg-gray-50');
                 if(el.dataset.section === sectionId) {
@@ -468,7 +487,6 @@
                 }
             });
 
-            // Close mobile menu if open
             const sidebar = document.getElementById('sidebar');
             if (!sidebar.classList.contains('-translate-x-full')) {
                 sidebar.classList.add('-translate-x-full');
@@ -476,53 +494,31 @@
         }
 
         // --- FILE 3 INTERACTION ---
-        function toggleFile3Mode(mode) {
-            // Update Buttons
-            const btnStd = document.getElementById('btn-standard');
-            const btnReem = document.getElementById('btn-reembolso');
-            
-            if(mode === 'standard') {
-                btnStd.classList.add('bg-white', 'text-gray-900', 'shadow-sm');
-                btnStd.classList.remove('text-gray-500');
-                btnReem.classList.remove('bg-white', 'text-gray-900', 'shadow-sm');
-                btnReem.classList.add('text-gray-500');
-            } else {
-                btnReem.classList.add('bg-white', 'text-gray-900', 'shadow-sm');
-                btnReem.classList.remove('text-gray-500');
-                btnStd.classList.remove('bg-white', 'text-gray-900', 'shadow-sm');
-                btnStd.classList.add('text-gray-500');
-            }
-
-            // Update Content
-            const data = file3Data[mode];
-            document.getElementById('mode-desc').innerText = data.desc;
+        function renderFile3Columns() {
+            const data = file3Data;
+            document.getElementById('mode-desc').innerHTML = `<strong>Contexto: </strong> ${data.desc}`;
             
             const grid = document.getElementById('file3-grid');
             grid.innerHTML = '';
             
-            data.columns.forEach(col => {
-                // Determine Source Color
-                let sourceClass = "bg-blue-50 text-blue-700 border-blue-200"; // Default (Bank)
-                if(col.source.includes("Contador") || col.source.includes("Admin") || col.source.includes("Cruce")) {
-                    sourceClass = "bg-purple-50 text-purple-700 border-purple-200";
-                } else if(col.source.includes("CFDI") || col.source.includes("Factura")) {
-                    sourceClass = "bg-emerald-50 text-emerald-700 border-emerald-200";
-                }
+            data.columns.forEach((col, index) => {
+                let badgeStyle = col.header.includes("CRÍTICO") || col.header.includes("CARGO") || col.header.includes("DESCRIPCIÓN") || col.header.includes("FECHA") || col.header.includes("MONTO") || col.header.includes("ID")
+                    ? "bg-red-100 text-red-800 border-red-200"
+                    : "bg-blue-50 text-blue-800 border-blue-200";
 
                 const card = document.createElement('div');
-                // Made card taller and cleaner
-                card.className = "bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all flex flex-col h-full";
+                card.className = "bg-white p-6 rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-all flex flex-col h-full";
                 card.innerHTML = `
-                    <div class="flex justify-between items-start mb-3">
-                        <h4 class="text-xl font-bold text-gray-800 tracking-tight">${col.header}</h4>
-                        <span class="text-[10px] uppercase font-bold px-2 py-1 rounded border ${sourceClass} leading-none text-center">
-                            ${col.source}
+                    <div class="flex justify-between items-start mb-4">
+                        <h4 class="text-lg font-extrabold text-gray-800 tracking-tight">${col.header}</h4>
+                        <span class="text-[10px] uppercase font-bold px-2 py-1 rounded border ${badgeStyle} leading-none text-center">
+                            Orígen: ${col.source}
                         </span>
                     </div>
-                    <p class="text-sm text-gray-600 mb-4 flex-grow border-b border-gray-100 pb-4">${col.desc}</p>
-                    <div class="bg-gray-50 rounded-lg p-3 text-xs border border-gray-100 mt-auto">
-                        <div class="mb-1"><span class="font-semibold text-gray-500 uppercase tracking-wider">Sinónimos Aceptados:</span></div>
-                        <div class="font-mono text-gray-700 break-words font-medium">${col.synonyms}</div>
+                    <p class="text-sm text-gray-600 mb-5 flex-grow font-medium leading-relaxed">${col.desc}</p>
+                    <div class="bg-gray-50 rounded-lg p-3 text-xs border border-gray-200 mt-auto">
+                        <div class="mb-1"><span class="font-bold text-gray-700 uppercase tracking-wider">Busca en encabezados por:</span></div>
+                        <div class="font-mono text-indigo-700 break-words font-semibold bg-indigo-50 p-1 rounded inline-block mt-1">${col.synonyms}</div>
                     </div>
                 `;
                 grid.appendChild(card);
@@ -536,10 +532,8 @@
 
         // --- CHARTS INITIALIZATION ---
         document.addEventListener('DOMContentLoaded', () => {
-            // Initialize File 3
-            toggleFile3Mode('standard');
+            renderFile3Columns();
 
-            // Setup Navigation Listeners
             document.querySelectorAll('.nav-item').forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -549,12 +543,12 @@
 
             // Chart 1: Catalog Composition (Donut)
             const ctx1 = document.getElementById('chartFile1').getContext('2d');
-            const chart1 = new Chart(ctx1, {
+            new Chart(ctx1, {
                 type: 'doughnut',
                 data: {
                     labels: ['Gastos (6000)', 'Proveedores (2110)', 'Bancos (1120)'],
                     datasets: [{
-                        data: [60, 25, 15], // Dummy percentage representing typical distribution
+                        data: [65, 25, 10], 
                         backgroundColor: ['#4f46e5', '#10b981', '#f59e0b'],
                         borderWidth: 0,
                         hoverOffset: 10
@@ -564,70 +558,11 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { position: 'bottom', labels: { usePointStyle: true, font: { size: 11 } } },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return context.label + ': Requerido';
-                                }
-                            }
-                        }
-                    },
-                    onClick: (e, elements) => {
-                        if(elements.length > 0) {
-                            const index = elements[0].index;
-                            const types = ['gastos', 'proveedores', 'bancos'];
-                            // Simple highlighting logic for the list below
-                            document.querySelectorAll('.req-item').forEach(el => {
-                                if(el.dataset.type === types[index]) {
-                                    el.classList.remove('bg-gray-50');
-                                    el.classList.add('bg-yellow-100', 'border-l-4', 'border-yellow-400');
-                                } else {
-                                    el.classList.add('bg-gray-50');
-                                    el.classList.remove('bg-yellow-100', 'border-l-4', 'border-yellow-400');
-                                }
-                            });
-                        }
-                    }
-                }
-            });
-
-            // Chart 2: Data Health Mock (Bar)
-            const ctx2 = document.getElementById('chartFile2').getContext('2d');
-            new Chart(ctx2, {
-                type: 'bar',
-                data: {
-                    labels: ['OK', 'Sin UUID', 'Sin RFC', 'Header Mal'],
-                    datasets: [{
-                        label: 'Registros Procesados',
-                        data: [85, 5, 8, 2],
-                        backgroundColor: ['#10b981', '#ef4444', '#f59e0b', '#6b7280'],
-                        borderRadius: 4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: { beginAtZero: true, grid: { display: false } },
-                        x: { grid: { display: false } }
-                    },
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            callbacks: {
-                                title: () => null,
-                                label: (ctx) => {
-                                    const msgs = ['Procesable', 'Error Crítico', 'Warning', 'Revisar Fila 1/3'];
-                                    return `${ctx.raw}% - ${msgs[ctx.dataIndex]}`;
-                                }
-                            }
-                        }
+                        legend: { position: 'bottom', labels: { usePointStyle: true, font: { size: 12 } } }
                     }
                 }
             });
         });
-
     </script>
 </body>
 </html>
